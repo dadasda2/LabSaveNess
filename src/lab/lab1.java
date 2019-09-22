@@ -16,9 +16,12 @@ public class lab1 {
         loginForm.setResizable(false);
         loginForm.setVisible(true);
 
+        JMenuBar JMenuBar = new JMenuBar();
         JMenuItem newMenu = new JMenu("new");
         JMenuItem txtFileItem = new JMenuItem("Text file");
         newMenu.add(txtFileItem);
+        JMenuBar.add(newMenu);
+        loginForm.setJMenuBar(JMenuBar);
 
     }
 }

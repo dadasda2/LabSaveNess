@@ -8,5 +8,4 @@ public class LoginForm {
     private JTextField loginField;
     private JPasswordField passwordField;
     protected JPanel Login;
-    private JMenuBar menu;
 }
