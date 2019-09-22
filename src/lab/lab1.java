@@ -22,6 +22,5 @@ public class lab1 {
         newMenu.add(txtFileItem);
         JMenuBar.add(newMenu);
         loginForm.setJMenuBar(JMenuBar);
-
     }
 }
