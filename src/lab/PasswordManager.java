@@ -4,58 +4,70 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 import java.io.*;
-import java.util.Map;
+import java.util.*;
 
 public class PasswordManager {
-    private Map<String,String> loginPass;
+    private Map<String,UserStruct> loginPass;
+
+    PasswordManager(){
+        loginPass = new HashMap<String, UserStruct>();
+    }
 
     public boolean checkPassword(String login, String password){
-        return loginPass.get(login) == password;
+        return loginPass.get(login).password == password;
     }
 
     private void setLoginPass(String login, String password){
             System.out.print("Trying to set loginPass..." + "\n");
-            loginPass.put(login, password);
-            System.out.println("set via 2 param " + loginPass + "\n");
+            UserStruct u = new UserStruct();
+            u.setUser(login, password, false, false, true, true);
+            loginPass.put(login, u);
+            System.out.println("Added via 2 param \n ");
     }
 
-    public void setLoginPass(String fileName) throws IOException {
+    public void setLoginPass(String fileName) throws IOException, ClassNotFoundException {
         try {
-            JsonReader reader = new JsonReader(new FileReader(fileName));
-            System.out.print("File is founded, opening..." + "\n");
-            Gson g = new Gson();
-            loginPass = g.fromJson(reader,Map.class);
-            reader.close();
-            System.out.print("set via file " + String.valueOf(loginPass) + "\n");
-        }catch (FileNotFoundException e){
-            System.out.print("File not found, creating default..." + "\n");
-            FileWriter writer = new FileWriter(fileName);
-            writer.write("{\"ADMIN\":\" \"}");
-            writer.close();
-            setLoginPass(fileName);
+            FileReader fr = new FileReader("passwords.ser");
+            fr.close();
+            System.out.print("File is founded, opening... \n");
+            FileInputStream fi = new FileInputStream("passwords.ser");
+            ObjectInputStream in = new ObjectInputStream(fi);
+            loginPass = (HashMap<String, UserStruct>) in.readObject();
+            in.close();
+            fi.close();
+            System.out.print("set via file " + "\n");
+        } catch (FileNotFoundException e) {
+            System.out.print("File not found, creating default... \n");
+            UserStruct admin = new UserStruct();
+            admin.setUser("ADMIN", " ", true, false, true, true);
+            loginPass.put(admin.login, admin);
+            FileOutputStream fo = new FileOutputStream(fileName);
+            ObjectOutputStream os = new ObjectOutputStream(fo);
+            os.writeObject(loginPass);
+            os.close();
+            fo.close();
         }
     }
 
     public void saveLoginPass(String fileName) throws IOException {
-        try {
-            System.out.print("File is opened, saving..." + "\n");
-            Gson g = new Gson();
-            FileWriter fileWriter = new FileWriter(fileName);
-            g.toJson(loginPass, fileWriter);
-            System.out.println("File is saved " + loginPass + "\n");
-            fileWriter.close();
-        }
-        catch (java.lang.NullPointerException e) {
-            setLoginPass(fileName);
-        }
+        FileOutputStream fo = new FileOutputStream(fileName);
+        ObjectOutputStream os = new ObjectOutputStream(fo);
+        System.out.print("File is opened, saving..." + "\n");
+        os.writeObject(loginPass);
+        System.out.println("File is saved " + "\n");
+        os.close();
+        fo.close();
+    }
+    public void printAllUsers(){
+        loginPass.forEach((key,value)->value.print());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         PasswordManager p = new PasswordManager();
-        p.setLoginPass("passwords.json");
-        p.setLoginPass("aa","awgwad");
-        p.setLoginPass("aa","awgwadd");
-        p.saveLoginPass("passwords.json");
+        p.setLoginPass("passwords.ser");
+        p.setLoginPass("kek"," lol");
+        p.saveLoginPass("passwords.ser");
+        p.printAllUsers();
     }
-    }
+}
 
