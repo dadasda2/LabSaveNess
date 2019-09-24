@@ -23,6 +23,8 @@ public class PasswordManager {
             u.setUser(login, password, false, false, true, true);
             loginPass.put(login, u);
             System.out.println("Added via 2 param \n ");
+
+
     }
 
     public void setLoginPass(String fileName) throws IOException, ClassNotFoundException {
