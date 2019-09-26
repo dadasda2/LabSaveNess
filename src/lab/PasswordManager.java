@@ -1,31 +1,35 @@
 package lab;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 
-public class PasswordManager {
+public class PasswordManager implements ActionListener {
     private Map<String,UserStruct> loginPass;
+    private LoginForm loginForm;
 
-    PasswordManager(){
+    public PasswordManager(LoginForm l)
+    {
         loginPass = new HashMap<String, UserStruct>();
+        loginForm = l;
     }
 
-    public boolean checkPassword(String login, String password){
-        return loginPass.get(login).password == password;
-    }
-
-    private void setLoginPass(String login, String password){
+    public void setLoginPass(String login, String password){
             System.out.print("Trying to set loginPass..." + "\n");
             UserStruct u = new UserStruct();
             u.setUser(login, password, false, false, true, true);
             loginPass.put(login, u);
             System.out.println("Added via 2 param \n ");
-
-
     }
+
+    public int checkPassword(String login, String password){
+        if(loginPass.containsKey(login)) {
+            return loginPass.get(login).password.compareTo(password);
+        }else return 123;
+    }
+
+    public Map<String,UserStruct> getLoginPass(){ return loginPass;}
 
     public void setLoginPass(String fileName) throws IOException, ClassNotFoundException {
         try {
@@ -60,16 +64,26 @@ public class PasswordManager {
         os.close();
         fo.close();
     }
-    public void printAllUsers(){
-        loginPass.forEach((key,value)->value.print());
-    }
+    public void printAllUsers(){ loginPass.forEach((key,value)->value.print()); }
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        PasswordManager p = new PasswordManager();
-        p.setLoginPass("passwords.ser");
-        p.setLoginPass("kek"," lol");
-        p.saveLoginPass("passwords.ser");
-        p.printAllUsers();
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        String login = loginForm.loginField.getText();
+        String password = new String(loginForm.passwordField.getPassword());
+        if (checkPassword(login, password) == 0) {
+            if (!loginPass.get(login).isBlocked) {
+                if (loginPass.get(login).isFirst) {
+                    //toDo create change password form here
+                    ChangePassWordDialog dialog = new ChangePassWordDialog();
+                    dialog.pack();
+                    dialog.setVisible(true);
+                } else {
+                    if (loginPass.get(login).isAdmin) {
+                        //toDo create admin's form here
+                    }
+                }
+            }
+        }
     }
 }
 

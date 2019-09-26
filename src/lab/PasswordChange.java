@@ -9,4 +9,7 @@ public class PasswordChange {
     private JButton cancelButton;
     private JButton changePasswordButton;
     private JPasswordField newPasswordField2;
+    private JTextField enterOldPasswordTextField;
+    private JTextField enterNewPasswordTextField;
+    private JTextField enterNewPasswordAgainTextField;
 }

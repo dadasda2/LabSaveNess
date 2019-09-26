@@ -1,12 +1,12 @@
 package lab;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 public class lab1 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         LoginForm loginFrame = new LoginForm();
 
         JFrame loginForm = new JFrame("Login");
@@ -25,9 +25,11 @@ public class lab1 {
 //        JMenuBar.add(newMenu);
 //        loginForm.setJMenuBar(JMenuBar);
 
-        SignInListener signInListener = new SignInListener();
+        PasswordManager passwordManager = new PasswordManager(loginFrame);
+        passwordManager.setLoginPass("passwords.ser");
+        passwordManager.printAllUsers();
         CancelListener cancelListener = new CancelListener();
-        loginFrame.signInButton.addActionListener(signInListener);
+        loginFrame.signInButton.addActionListener(passwordManager);
         loginFrame.cancelButton.addActionListener(cancelListener);
 
     }

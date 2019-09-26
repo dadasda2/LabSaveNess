@@ -36,16 +36,6 @@
           <toolTipText value="EnterPassword"/>
         </properties>
       </component>
-      <component id="511f8" class="javax.swing.JTextField" binding="loginField">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
-        </constraints>
-        <properties>
-          <toolTipText value="Enter login"/>
-        </properties>
-      </component>
       <component id="73af9" class="javax.swing.JTextField" binding="enterLoginTextField" default-binding="true">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
@@ -54,6 +44,7 @@
         </constraints>
         <properties>
           <editable value="false"/>
+          <enabled value="true"/>
           <horizontalAlignment value="0"/>
           <text value="Enter Login"/>
         </properties>
@@ -68,6 +59,16 @@
           <editable value="false"/>
           <horizontalAlignment value="0"/>
           <text value="Enter Password"/>
+        </properties>
+      </component>
+      <component id="511f8" class="javax.swing.JTextField" binding="loginField">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <toolTipText value="Enter login"/>
         </properties>
       </component>
     </children>
