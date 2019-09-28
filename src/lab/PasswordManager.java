@@ -3,8 +3,6 @@ package lab;
 import java.awt.event.ActionEvent;
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class PasswordManager{
     private Map<String,UserStruct> loginPass;

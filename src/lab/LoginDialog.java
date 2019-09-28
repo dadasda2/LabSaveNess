@@ -1,6 +1,7 @@
 package lab;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
@@ -14,7 +15,7 @@ public class LoginDialog extends JDialog {
     private JTextField enterLoginTextField;
     private JTextField enterPasswordTextField;
     private JTextField loginField;
-
+    private int deathCounter;
     private PasswordManager passwordManager;
 
     public LoginDialog() throws IOException, ClassNotFoundException {
@@ -23,6 +24,7 @@ public class LoginDialog extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         passwordManager = new PasswordManager();
         passwordManager.setLoginPass("passwords.ser");
+        deathCounter = 0;
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -70,10 +72,14 @@ public class LoginDialog extends JDialog {
 
     private void onOK() throws IOException, ClassNotFoundException {
         UserStruct currentUser = passwordManager.getUser(loginField.getText());
-
+        passwordManager.printAllUsers();
         String login = loginField.getText();
         String password = new String(passwordField.getPassword());
         if (passwordManager.checkPassword(login, password) == 0) {
+            enterLoginTextField.setText("Enter login");
+            enterLoginTextField.setBorder(BorderFactory.createLineBorder(Color.black));
+            enterPasswordTextField.setText("Enter password");
+            enterPasswordTextField.setBorder(BorderFactory.createLineBorder(Color.red));
             if (!currentUser.isBlocked) {
                 if (currentUser.isFirst) {
                     ChangePassWordDialog dialog = new ChangePassWordDialog(currentUser);
@@ -91,24 +97,86 @@ public class LoginDialog extends JDialog {
                     }
 
                 } if (currentUser.isAdmin) {
-                    //toDo create admin's form here
+                    passwordManager.saveLoginPass("passwords.ser");
+                    AdminWindow adminWindow = new AdminWindow();
+                    adminWindow.setCurrentUser(currentUser);
+                    adminWindow.setPasswordManager(passwordManager);
+                    adminWindow.setTable();
+                    JFrame jFrame = new JFrame("Main window");
+
+                    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    jFrame.setContentPane(adminWindow.panel1);
+                    jFrame.pack();
+                    jFrame.setLocationRelativeTo(null);
+                    jFrame.setVisible(true);
+
+
+                    JMenuBar jMenuBar = new JMenuBar();
+                    JMenuItem helpMenu = new JMenu("Help");
+                    JMenuItem about = new JMenuItem("About");
+                    about.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            About about = new About();
+                            about.setSize(500, 300);
+                            about.setLocationRelativeTo(null);
+                            about.setResizable(false);
+                            about.setVisible(true);
+                        }
+                    });
+                    helpMenu.add(about);
+                    jMenuBar.add(helpMenu);
+                    jFrame.setJMenuBar(jMenuBar);
+
                     dispose();
                 }else{
                     passwordManager.saveLoginPass("passwords.ser");
                     MainWindowUser mainWindowUser = new MainWindowUser();
                     mainWindowUser.setPasswordManager(passwordManager);
                     mainWindowUser.setCurrentUser(currentUser);
+
                     JFrame mainWindowFrame= new JFrame("Main window");
                     mainWindowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     mainWindowFrame.setContentPane(mainWindowUser.MainWindowUser);
                     mainWindowFrame.setSize(400, 200);
                     mainWindowFrame.setLocationRelativeTo(null);
                     mainWindowFrame.setResizable(false);
+
+                    JMenuBar JMenuBar = new JMenuBar();
+                    JMenuItem helpMenu = new JMenu("Help");
+                    JMenuItem about = new JMenuItem("About");
+                    about.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            About about = new About();
+                            about.setSize(500, 300);
+                            about.setLocationRelativeTo(null);
+                            about.setResizable(false);
+                            about.setVisible(true);
+                        }
+                    });
+                    helpMenu.add(about);
+                    JMenuBar.add(helpMenu);
+                    mainWindowFrame.setJMenuBar(JMenuBar);
+
                     mainWindowFrame.setVisible(true);
                     dispose();
                 }
                 }
+            }else{
+            if(passwordManager.checkPassword(login, password) == 123){
+                enterLoginTextField.setText("(Incorrect login)");
+                enterLoginTextField.setBorder(BorderFactory.createLineBorder(Color.red));
+            }else{
+                enterPasswordTextField.setText("(Incorrect password)");
+                enterPasswordTextField.setBorder(BorderFactory.createLineBorder(Color.red));
+
+                deathCounter++;
+                if(deathCounter == 3){
+                    System.exit(0);
+                }
             }
+        }
         }
 
 

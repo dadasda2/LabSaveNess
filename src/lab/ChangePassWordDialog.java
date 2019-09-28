@@ -87,6 +87,10 @@ public class ChangePassWordDialog extends JDialog {
                         enterNewPasswordAgainTextField.setBorder(BorderFactory.createLineBorder(Color.red));
 
                     }
+                }else {
+                    currentuser.password = newPassword2;
+                    currentuser.isFirst = false;
+                    dispose();
                 }
             }else {
                 enterNewPasswordTextField.setText("(New passwords does not match)");
