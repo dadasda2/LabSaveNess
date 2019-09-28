@@ -17,6 +17,7 @@ public class UserStruct implements java.io.Serializable{
         isFirst = iF;
     }
     public void print(){
+        System.out.println("-----UserStruct-----");
         System.out.println(login);
         System.out.println(password);
         System.out.println(isAdmin);

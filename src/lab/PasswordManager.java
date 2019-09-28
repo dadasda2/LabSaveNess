@@ -1,22 +1,20 @@
 package lab;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class PasswordManager implements ActionListener {
+public class PasswordManager{
     private Map<String,UserStruct> loginPass;
-    private LoginForm loginForm;
 
-    public PasswordManager()
-    {
+    public PasswordManager(){
         loginPass = new HashMap<String, UserStruct>();
-
     }
 
-    public void addLoginForm(LoginForm l){
-        loginForm = l;
+    public UserStruct getUser(String login){
+        return loginPass.get(login);
     }
 
     public void setLoginPass(String login, String password){
@@ -25,6 +23,12 @@ public class PasswordManager implements ActionListener {
             u.setUser(login, password, false, false, true, true);
             loginPass.put(login, u);
             System.out.println("Added via 2 param \n ");
+    }
+
+    public void setLoginPass(String login, UserStruct u){
+        System.out.print("Trying to set loginPass... \n");
+        loginPass.put(login, u);
+        System.out.println("Added via user struct \n ");
     }
 
     public int checkPassword(String login, String password){
@@ -70,24 +74,5 @@ public class PasswordManager implements ActionListener {
     }
     public void printAllUsers(){ loginPass.forEach((key,value)->value.print()); }
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        String login = loginForm.loginField.getText();
-        String password = new String(loginForm.passwordField.getPassword());
-        if (checkPassword(login, password) == 0) {
-            if (!loginPass.get(login).isBlocked) {
-                if (loginPass.get(login).isFirst) {
-                    //toDo create change password form here
-                    ChangePassWordDialog dialog = new ChangePassWordDialog();
-                    dialog.pack();
-                    dialog.setVisible(true);
-                } else {
-                    if (loginPass.get(login).isAdmin) {
-                        //toDo create admin's form here
-                    }
-                }
-            }
-        }
-    }
 }
 

@@ -1,6 +1,8 @@
 package lab;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.*;
 
 public class ChangePassWordDialog extends JDialog {
@@ -14,7 +16,12 @@ public class ChangePassWordDialog extends JDialog {
     private JTextField enterNewPasswordTextField;
     private JTextField enterNewPasswordAgainTextField;
 
-    public ChangePassWordDialog() {
+    private UserStruct currentuser;
+
+
+    public ChangePassWordDialog(UserStruct u) {
+        currentuser = u;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -48,9 +55,47 @@ public class ChangePassWordDialog extends JDialog {
     }
 
     private void onOK() {
-        PasswordManager passwordManager = new PasswordManager();
+        var oldPassword  = new String(oldPasswordField.getPassword());
+        var newPassword1 = new String(newPasswordField1.getPassword());
+        var newPassword2 = new String(newPasswordField2.getPassword());
+        if(currentuser.password.compareTo(oldPassword) == 0){
+            enterOldPasswordTextField.setText("Enter old password");
+            enterOldPasswordTextField.setBorder(BorderFactory.createLineBorder(Color.black));
+            if(newPassword1.compareTo(newPassword2) == 0){
+                enterNewPasswordTextField.setText("Enter new password");
+                enterNewPasswordTextField.setBorder(BorderFactory.createLineBorder(Color.black));
+                enterNewPasswordAgainTextField.setBorder(BorderFactory.createLineBorder(Color.black));
+                if(currentuser.hasRestrictions){
+                    int specSymb  = 0;
+                    int upperSymb = 0;
+                    int lowerSymb = 0;
 
-        dispose();
+                    for (int i = 0;i<newPassword2.length();i++){
+                        if((newPassword2.charAt(i) == '+') | (newPassword2.charAt(i) == '-')
+                                | (newPassword2.charAt(i) == '*') | (newPassword2.charAt(i) == '/')){ specSymb++; }
+                        if(Character.isUpperCase(newPassword2.charAt(i))){ upperSymb++; }
+                        if(Character.isLowerCase(newPassword2.charAt(i))){ lowerSymb++; }
+                    }
+                    if((specSymb+upperSymb+lowerSymb) >= 3){
+                        currentuser.password = newPassword2;
+                        currentuser.isFirst = false;
+                        dispose();
+                    }else {
+                        enterNewPasswordTextField.setText("(Password must contain Upper Case letter,");
+                        enterNewPasswordAgainTextField.setText("Lower Case letter and arithmetic symbol)");
+                        enterNewPasswordTextField.setBorder(BorderFactory.createLineBorder(Color.red));
+                        enterNewPasswordAgainTextField.setBorder(BorderFactory.createLineBorder(Color.red));
+
+                    }
+                }
+            }else {
+                enterNewPasswordTextField.setText("(New passwords does not match)");
+                enterNewPasswordTextField.setBorder(BorderFactory.createLineBorder(Color.red));
+            }
+        }else{
+            enterOldPasswordTextField.setText("(Incorrect old password)");
+            enterOldPasswordTextField.setBorder(BorderFactory.createLineBorder(Color.red));
+        }
     }
 
     private void onCancel() {
@@ -58,10 +103,14 @@ public class ChangePassWordDialog extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
-        ChangePassWordDialog dialog = new ChangePassWordDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+    public UserStruct getCurrentuser(){
+        return currentuser;
     }
+//    public static void main(String[] args) {
+//        ChangePassWordDialog dialog = new ChangePassWordDialog();
+//        dialog.pack();
+//        dialog.setVisible(true);
+//        System.exit(0);
+//    }
+
 }
