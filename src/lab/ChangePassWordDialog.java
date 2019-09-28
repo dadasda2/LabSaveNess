@@ -48,7 +48,8 @@ public class ChangePassWordDialog extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        PasswordManager passwordManager = new PasswordManager();
+
         dispose();
     }
 

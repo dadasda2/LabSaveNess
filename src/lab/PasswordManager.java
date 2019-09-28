@@ -9,9 +9,13 @@ public class PasswordManager implements ActionListener {
     private Map<String,UserStruct> loginPass;
     private LoginForm loginForm;
 
-    public PasswordManager(LoginForm l)
+    public PasswordManager()
     {
         loginPass = new HashMap<String, UserStruct>();
+
+    }
+
+    public void addLoginForm(LoginForm l){
         loginForm = l;
     }
 

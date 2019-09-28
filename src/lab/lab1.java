@@ -5,7 +5,7 @@ import java.io.IOException;
 
 
 public class lab1 {
-
+    static public String userName;
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         LoginForm loginFrame = new LoginForm();
 
@@ -25,7 +25,8 @@ public class lab1 {
 //        JMenuBar.add(newMenu);
 //        loginForm.setJMenuBar(JMenuBar);
 
-        PasswordManager passwordManager = new PasswordManager(loginFrame);
+        PasswordManager passwordManager = new PasswordManager();
+        passwordManager.addLoginForm(loginFrame);
         passwordManager.setLoginPass("passwords.ser");
         passwordManager.printAllUsers();
         CancelListener cancelListener = new CancelListener();
