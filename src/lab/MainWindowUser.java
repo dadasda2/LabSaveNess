@@ -1,7 +1,16 @@
 package lab;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -36,12 +45,27 @@ public class MainWindowUser {
                 lock.unlock();
             }
             try {
-                passwordManager.saveLoginPass("passwords.ser");
+                passwordManager.saveLoginPass("temp");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
 
-        exitButton.addActionListener(e -> System.exit(0));
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    passwordManager.saveLoginPass("temp");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    passwordManager.deEnCryptFile("temp","passwords.ser","glrz123",true);
+                } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException | NoSuchPaddingException e) {
+                    e.printStackTrace();
+                }
+                System.exit(0);
+            }
+        });
     }
 }

@@ -23,7 +23,7 @@ public class LoginDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         passwordManager = new PasswordManager();
-        passwordManager.setLoginPass("passwords.ser");
+        passwordManager.setLoginPass("temp");
         deathCounter = 0;
 
         buttonOK.addActionListener(new ActionListener() {
@@ -70,7 +70,7 @@ public class LoginDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() throws IOException, ClassNotFoundException {
+    private void onOK() throws IOException, ClassNotFoundException {;
         UserStruct currentUser = passwordManager.getUser(loginField.getText());
         passwordManager.printAllUsers();
         String login = loginField.getText();
@@ -97,7 +97,7 @@ public class LoginDialog extends JDialog {
                     }
 
                 } if (currentUser.isAdmin) {
-                    passwordManager.saveLoginPass("passwords.ser");
+//                    passwordManager.saveLoginPass("passwords.ser");
                     AdminWindow adminWindow = new AdminWindow();
                     adminWindow.setCurrentUser(currentUser);
                     adminWindow.setPasswordManager(passwordManager);
@@ -117,11 +117,7 @@ public class LoginDialog extends JDialog {
                     about.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent actionEvent) {
-                            About about = new About();
-                            about.setSize(500, 300);
-                            about.setLocationRelativeTo(null);
-                            about.setResizable(false);
-                            about.setVisible(true);
+                            JOptionPane.showMessageDialog(null, "Овчинников А.И. ИДБ-16-09 Наличие строчных, прописных букв и символов математических операций.", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
                         }
                     });
                     helpMenu.add(about);
@@ -130,7 +126,7 @@ public class LoginDialog extends JDialog {
 
                     dispose();
                 }else{
-                    passwordManager.saveLoginPass("passwords.ser");
+                    passwordManager.saveLoginPass("temp");
                     MainWindowUser mainWindowUser = new MainWindowUser();
                     mainWindowUser.setPasswordManager(passwordManager);
                     mainWindowUser.setCurrentUser(currentUser);
@@ -148,12 +144,9 @@ public class LoginDialog extends JDialog {
                     about.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent actionEvent) {
-                            About about = new About();
-                            about.setSize(500, 300);
-                            about.setLocationRelativeTo(null);
-                            about.setResizable(false);
-                            about.setVisible(true);
+                            JOptionPane.showMessageDialog(null, "Овчинников А.И. ИДБ-16-09 Наличие строчных, прописных букв и символов математических операций.", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
                         }
+
                     });
                     helpMenu.add(about);
                     JMenuBar.add(helpMenu);
@@ -162,7 +155,11 @@ public class LoginDialog extends JDialog {
                     mainWindowFrame.setVisible(true);
                     dispose();
                 }
-                }
+                }else{
+                JOptionPane.showMessageDialog(null, "You are blocked", "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+
+
+            }
             }else{
             if(passwordManager.checkPassword(login, password) == 123){
                 enterLoginTextField.setText("(Incorrect login)");
@@ -182,7 +179,7 @@ public class LoginDialog extends JDialog {
 
 
     private void onCancel() throws IOException {
-        passwordManager.saveLoginPass("passwords.ser");
+        passwordManager.saveLoginPass("temp");
         dispose();
     }
 

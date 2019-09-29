@@ -1,15 +1,18 @@
 package lab;
 
-import com.sun.source.tree.PackageTree;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -19,6 +22,7 @@ public class AdminWindow {
     private JButton changePasswordButton;
     private JButton addUserButton;
     private JButton saveChangesButton;
+    private JButton exitButton;
     private PasswordManager passwordManager;
     private UserStruct currentUser;
 
@@ -40,7 +44,7 @@ public class AdminWindow {
                     lock.unlock();
                 }
                 try {
-                    passwordManager.saveLoginPass("passwords.ser");
+                    passwordManager.saveLoginPass("temp");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -65,7 +69,7 @@ public class AdminWindow {
                 }
                 setTable();
                 try {
-                    passwordManager.saveLoginPass("passwords.ser");
+                    passwordManager.saveLoginPass("temp");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -85,11 +89,28 @@ public class AdminWindow {
                     us.hasRestrictions = Boolean.parseBoolean(hasRestrictions);
                     passwordManager.setLoginPass(login,us);
                     try {
-                        passwordManager.saveLoginPass("passwords.ser");
+                        passwordManager.saveLoginPass("temp");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    passwordManager.saveLoginPass("temp");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    passwordManager.deEnCryptFile("temp","passwords.ser","glrz123",true);
+                } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException | NoSuchPaddingException e) {
+                    e.printStackTrace();
+                }
+                System.exit(0);
             }
         });
     }
