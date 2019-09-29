@@ -31,7 +31,7 @@ public class AdminWindow {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 ChangePassWordDialog dialog = new ChangePassWordDialog(currentUser);
-                dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 dialog.setLocationRelativeTo(null);
                 dialog.setSize(550, 200);
                 dialog.setTitle("Change password");
@@ -55,7 +55,7 @@ public class AdminWindow {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 UserNameDialog userNameDialog = new UserNameDialog();
-                userNameDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                userNameDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 userNameDialog.setLocationRelativeTo(null);
                 userNameDialog.setSize(550, 200);
                 userNameDialog.setTitle("Change password");
@@ -129,6 +129,7 @@ public class AdminWindow {
         }
 
         table1.setModel(tableModel);
+        table1.getTableHeader().setReorderingAllowed(false);
     }
 
 

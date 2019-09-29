@@ -63,7 +63,7 @@ public class CryptoControlDialog extends JDialog {
         if (pm.deEnCryptFile("temp", "passwords.ser", new String(cryptoField.getPassword()), false)) {
 
             LoginDialog loginDialog = new LoginDialog();
-            loginDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            loginDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
             loginDialog.setTitle("Login");
             loginDialog.setSize(500, 200);
             loginDialog.setLocationRelativeTo(null);

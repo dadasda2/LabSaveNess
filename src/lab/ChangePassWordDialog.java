@@ -66,17 +66,17 @@ public class ChangePassWordDialog extends JDialog {
                 enterNewPasswordTextField.setBorder(BorderFactory.createLineBorder(Color.black));
                 enterNewPasswordAgainTextField.setBorder(BorderFactory.createLineBorder(Color.black));
                 if(currentuser.hasRestrictions){
-                    int specSymb  = 0;
-                    int upperSymb = 0;
-                    int lowerSymb = 0;
+                    boolean specSymb  = false;
+                    boolean upperSymb = false;
+                    boolean lowerSymb = false;
 
                     for (int i = 0;i<newPassword2.length();i++){
                         if((newPassword2.charAt(i) == '+') | (newPassword2.charAt(i) == '-')
-                                | (newPassword2.charAt(i) == '*') | (newPassword2.charAt(i) == '/')){ specSymb++; }
-                        if(Character.isUpperCase(newPassword2.charAt(i))){ upperSymb++; }
-                        if(Character.isLowerCase(newPassword2.charAt(i))){ lowerSymb++; }
+                                | (newPassword2.charAt(i) == '*') | (newPassword2.charAt(i) == '/')){ specSymb = true; }
+                        if(Character.isUpperCase(newPassword2.charAt(i))){ upperSymb = true; }
+                        if(Character.isLowerCase(newPassword2.charAt(i))){ lowerSymb = true; }
                     }
-                    if((specSymb+upperSymb+lowerSymb) >= 3){
+                    if(specSymb&upperSymb&lowerSymb){
                         currentuser.password = newPassword2;
                         currentuser.isFirst = false;
                         dispose();

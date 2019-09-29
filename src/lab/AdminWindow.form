@@ -35,7 +35,10 @@
             <constraints/>
             <properties>
               <autoCreateRowSorter value="false"/>
+              <enabled value="true"/>
               <fillsViewportHeight value="true"/>
+              <rowSelectionAllowed value="true"/>
+              <visible value="true"/>
             </properties>
           </component>
         </children>

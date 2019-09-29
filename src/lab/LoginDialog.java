@@ -104,7 +104,7 @@ public class LoginDialog extends JDialog {
                     adminWindow.setTable();
                     JFrame jFrame = new JFrame("Main window");
 
-                    jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE );
                     jFrame.setContentPane(adminWindow.panel1);
                     jFrame.pack();
                     jFrame.setLocationRelativeTo(null);
@@ -132,7 +132,7 @@ public class LoginDialog extends JDialog {
                     mainWindowUser.setCurrentUser(currentUser);
 
                     JFrame mainWindowFrame= new JFrame("Main window");
-                    mainWindowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    mainWindowFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE );
                     mainWindowFrame.setContentPane(mainWindowUser.MainWindowUser);
                     mainWindowFrame.setSize(400, 200);
                     mainWindowFrame.setLocationRelativeTo(null);

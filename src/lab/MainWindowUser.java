@@ -32,7 +32,7 @@ public class MainWindowUser {
     MainWindowUser() {
         changePasswordButton.addActionListener(e -> {
             ChangePassWordDialog dialog = new ChangePassWordDialog(currentUser);
-            dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
             dialog.setLocationRelativeTo(null);
             dialog.setSize(550, 200);
             dialog.setTitle("Change password");
