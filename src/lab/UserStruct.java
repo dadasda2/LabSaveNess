@@ -18,11 +18,11 @@ public class UserStruct implements java.io.Serializable{
     }
     public void print(){
         System.out.println("-----UserStruct-----");
-        System.out.println(login);
-        System.out.println(password);
-        System.out.println(isAdmin);
-        System.out.println(isBlocked);
-        System.out.println(hasRestrictions);
-        System.out.println(isFirst);
+        System.out.println("login " + login);
+        System.out.println("password " + password);
+        System.out.println("isAdmin " + isAdmin);
+        System.out.println("isBlocked " + isBlocked);
+        System.out.println("hasRestrictions " + hasRestrictions);
+        System.out.println("isFirst " + isFirst);
     }
 }

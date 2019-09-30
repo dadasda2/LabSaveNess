@@ -86,6 +86,9 @@ public class AdminWindow {
                     var map = passwordManager.getLoginPass();
                     var us = map.get(login);
                     us.isBlocked = Boolean.parseBoolean(isBlocked);
+                    if(us.hasRestrictions != Boolean.parseBoolean(hasRestrictions)){
+                        us.isFirst = true;
+                    }
                     us.hasRestrictions = Boolean.parseBoolean(hasRestrictions);
                     passwordManager.setLoginPass(login,us);
                     try {
